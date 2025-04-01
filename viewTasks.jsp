@@ -1,9 +1,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.*, java.sql.Date"%>
 <html>
 <head>
-<title>Liste des tâches</title>
+<title>Taches</title>
 </head>
-<body>
+<body bgcolor=white>
 <h1>Liste des tâches</h1>
 <%
     HttpSession session = request.getSession();
@@ -11,9 +12,9 @@
     if (tasks != null) {
         for (Task task : tasks) {
 %>
-            <p>Titre : <%= task.getTitle() %></p>
-            <p>Description : <%= task.getDescription() %></p>
-            <p>Date d'échéance : <%= task.getDueDate() %></p>
+            <p>Titre : <%= task.title %></p>
+            <p>Description : <%= task.description %></p>
+            <p>Date d'échéance : <%= task.dueDate %></p>
 <%
         }
     }
