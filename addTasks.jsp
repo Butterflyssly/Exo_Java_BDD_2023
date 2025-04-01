@@ -31,6 +31,7 @@
 %>
 
 <%
+    HttpSession session = request.getSession();
     String title = request.getParameter("title");
     String description = request.getParameter("description");
     String dueDateStr = request.getParameter("dueDate");
@@ -38,7 +39,6 @@
     if (title != null && description != null && dueDateStr != null) {
         Date dueDate = Date.valueOf(dueDateStr);
         Task task = new Task(title, description, dueDate);
-        HttpSession session = request.getSession();
         List<Task> tasks = (List<Task>) session.getAttribute("tasks");
         if (tasks == null) {
             tasks = new ArrayList<>();
