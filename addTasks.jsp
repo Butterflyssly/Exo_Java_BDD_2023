@@ -1,51 +1,55 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.util.*, java.sql.Date"%>
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-<title>Taches</title> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajouter une tâche</title>
 </head>
-<body bgcolor=white>
-<h1>Saisir une tâche</h1>
-<form action="#" method="post">
-    <label for="inputTitle">Titre : </label>
-    <input type="text" id="inputTitle" name="title"><br>
-    <label for="inputDescription">Description : </label>
-    <input type="text" id="inputDescription" name="description"><br>
-    <label for="inputDueDate">Date d'échéance : </label>
-    <input type="date" id="inputDueDate" name="dueDate"><br>
-    <input type="submit" value="Enregistrer">
-</form>
+<body>
+    <h1>Ajouter une Tâche</h1>
+    <form action="taskForm.jsp" method="post">
+        <label for="title">Titre :</label>
+        <input type="text" name="title" id="title" required><br><br>
 
-<%! 
-    class Task {
-        String title;
-        String description;
-        Date dueDate;
+        <label for="description">Description :</label>
+        <textarea name="description" id="description" required></textarea><br><br>
 
-        public Task(String title, String description, Date dueDate) {
-            this.title = title;
-            this.description = description;
-            this.dueDate = dueDate;
-        }
-    }
-%>
+        <button type="submit">Ajouter</button>
+    </form>
 
-<%
-    HttpSession session = request.getSession();
-    String title = request.getParameter("title");
-    String description = request.getParameter("description");
-    String dueDateStr = request.getParameter("dueDate");
+    <hr>
+    <h2>Tâches</h2>
 
-    if (title != null && description != null && dueDateStr != null) {
-        Date dueDate = Date.valueOf(dueDateStr);
-        Task task = new Task(title, description, dueDate);
-        List<Task> tasks = (List<Task>) session.getAttribute("tasks");
+    <%
+        // Récupérer la session et la liste des tâches
+        ArrayList<String> tasks = (ArrayList<String>) session.getAttribute("tasks");
+
         if (tasks == null) {
             tasks = new ArrayList<>();
         }
-        tasks.add(task);
-        session.setAttribute("tasks", tasks);
-    }
-%>
+
+        // Si la requête est un POST (l'ajout d'une tâche), ajouter la tâche à la liste
+        if (request.getMethod().equals("POST")) {
+            String title = request.getParameter("title");
+            String description = request.getParameter("description");
+            String task = "Titre: " + title + " | Description: " + description;
+
+            tasks.add(task);
+            session.setAttribute("tasks", tasks);
+        }
+
+        // Afficher la liste des tâches
+        if (tasks.isEmpty()) {
+            out.println("<p>Aucune tâche enregistrée.</p>");
+        } else {
+            out.println("<ul>");
+            for (String task : tasks) {
+                out.println("<li>" + task + "</li>");
+            }
+            out.println("</ul>");
+        }
+    %>
 </body>
 </html>
+
