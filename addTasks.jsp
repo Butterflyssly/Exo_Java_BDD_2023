@@ -5,7 +5,7 @@
 <title>Taches</title>
 </head>
 <body bgcolor=white>
-<h1>Saisir une tache</h1>
+<h1>Saisir une tâche</h1>
 <form action="#" method="post">
     <label for="inputTitle">Titre : </label>
     <input type="text" id="inputTitle" name="title"><br>
@@ -37,18 +37,6 @@
 
     if (title != null && description != null && dueDateStr != null) {
         Date dueDate = Date.valueOf(dueDateStr);
-        Task task = new Task(title, description, dueDate);
-        HttpSession session = request.getSession();
-        List<Task> tasks = (List<Task>) session.getAttribute("tasks");
-        if (tasks == null) {
-            tasks = new ArrayList<>();
-        }
-        tasks.add(task);
-        session.setAttribute("tasks", tasks);
-    }
-%>
-</body>
-</html>
         Task task = new Task(title, description, dueDate);
         HttpSession session = request.getSession();
         List<Task> tasks = (List<Task>) session.getAttribute("tasks");
