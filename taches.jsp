@@ -1,37 +1,43 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-
-<html>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html lang="fr">
 <head>
-<title>Taches</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des tâches</title>
 </head>
-<body bgcolor=white>
-<h1>Saisir une tache</h1>
-<form action="#" method="post">
-    <label for="inputValeur">Saisir le nom d'une tache : </label>
-    <input type="text" id="inputValeur" name="valeur">
-    <input type="submit" value="Enregistrer">
-</form>
+<body>
+    <h1>Gestionnaire de tâches</h1>
 
-<%! 
-    class MyClass {
-        String nameTache;
+    <%
+        // Récupérer la session et la liste des tâches
+        ArrayList<String> tasks = (ArrayList<String>) session.getAttribute("tasks");
 
-        public MyClass(String name) {
-            nameTache = name;
+        if (tasks == null) {
+            tasks = new ArrayList<>();
         }
-    }
-%>
 
-<%
-    String valeur = request.getParameter("valeur");
+        // Ajouter une tâche si le formulaire est soumis (méthode POST)
+        if (request.getMethod().equals("POST")) {
+            String title = request.getParameter("title");
+            String description = request.getParameter("description");
 
-    if (valeur != null && !valeur.isEmpty()) {
-        MyClass tache = new MyClass(valeur);
-%>
-        <p>Nom de la tâche : <%= tache.nameTache %></p>
-<%
-    }
-%>
+            // Créer une tâche sous forme de chaîne de caractères
+            String task = "Titre: " + title + " | Description: " + description;
+
+            // Ajouter la tâche à la session
+            tasks.add(task);
+            session.setAttribute("tasks", tasks);
+
+            // Rediriger vers la page d'affichage des tâches
+            response.sendRedirect("viewtasks.jsp");
+            return;
+        }
+
+    %>
+
+    <p><a href="addtasks.jsp">Ajouter une nouvelle tâche</a></p>
+    <p><a href="viewtasks.jsp">Voir la liste des tâches</a></p>
 
 </body>
 </html>
