@@ -2,7 +2,7 @@
 <%@page import="java.util.*, java.sql.Date"%>
 <html>
 <head>
-<title>Taches</title>
+<title>Taches</title> 
 </head>
 <body bgcolor=white>
 <h1>Saisir une tâche</h1>
